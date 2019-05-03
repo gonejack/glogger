@@ -68,6 +68,7 @@ func (l *basicLogger) getTime() (time string) {
 func New(name string) (logger *basicLogger) {
 	logger = &basicLogger{
 		name:   name,
+		time:   time.Now().Format("2006-01-02 15:04:05"),
 		stdout: log.New(os.Stdout, name, 0),
 		stderr: log.New(os.Stderr, name, 0),
 	}
