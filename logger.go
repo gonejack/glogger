@@ -1,5 +1,5 @@
 /*
-Package logger is a basic logger library for simple go projects.
+Package glogger is a basic logger library for simple go projects.
 */
 package glogger
 
