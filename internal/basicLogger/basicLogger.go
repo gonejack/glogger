@@ -2,14 +2,14 @@ package basicLogger
 
 import (
 	"fmt"
-	"github.com/gonejack/logger/internal/logLevel"
+	"github.com/gonejack/glogger/internal/logLevel"
 	"log"
 	"os"
 	"time"
 )
 
 type basicLogger struct {
-	name string
+	name   string
 	stdout *log.Logger
 	stderr *log.Logger
 }
@@ -42,7 +42,7 @@ func (l *basicLogger) Fatalf(tpl string, values ...interface{}) {
 	if logLevel.Threshold <= logLevel.FATAL {
 		_ = l.stderr.Output(2, l.format(logLevel.FATAL, tpl, values...))
 	}
-	
+
 	os.Exit(-1)
 }
 
@@ -50,7 +50,7 @@ func (l *basicLogger) format(level logLevel.LEVEL, tpl string, values ...interfa
 	if len(values) > 0 {
 		tpl = fmt.Sprintf(tpl, values...)
 	}
-	
+
 	return fmt.Sprintf("[%s] [%s] %s", l.getTime(), level, tpl)
 }
 
@@ -60,7 +60,7 @@ func (l *basicLogger) getTime() interface{} {
 
 func New(name string) (logger *basicLogger) {
 	logger = &basicLogger{
-		name: name,
+		name:   name,
 		stdout: log.New(os.Stdout, name, 0),
 		stderr: log.New(os.Stderr, name, 0),
 	}
