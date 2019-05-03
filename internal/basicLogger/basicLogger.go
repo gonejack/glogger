@@ -5,13 +5,16 @@ import (
 	"github.com/gonejack/glogger/internal/logLevel"
 	"log"
 	"os"
+	"sync"
 	"time"
 )
 
 type basicLogger struct {
 	name   string
+	time   string
 	stdout *log.Logger
 	stderr *log.Logger
+	sync.RWMutex
 }
 
 func (l *basicLogger) Debugf(tpl string, values ...interface{}) {
@@ -54,8 +57,12 @@ func (l *basicLogger) format(level logLevel.LEVEL, tpl string, values ...interfa
 	return fmt.Sprintf("[%s] [%s] %s", l.getTime(), level, tpl)
 }
 
-func (l *basicLogger) getTime() interface{} {
-	return time.Now().Format("2006-01-02 15:04:05")
+func (l *basicLogger) getTime() (time string) {
+	l.RLock()
+	time = l.time
+	l.RUnlock()
+
+	return
 }
 
 func New(name string) (logger *basicLogger) {
@@ -64,6 +71,15 @@ func New(name string) (logger *basicLogger) {
 		stdout: log.New(os.Stdout, name, 0),
 		stderr: log.New(os.Stderr, name, 0),
 	}
+
+	go func() {
+		for {
+			logger.Lock()
+			logger.time = time.Now().Format("2006-01-02 15:04:05")
+			logger.Unlock()
+			time.Sleep(time.Second)
+		}
+	}()
 
 	return
 }
