@@ -1,4 +1,4 @@
-package logger
+package glogger
 
 // Logger is the interface of logger instances.
 type Logger interface {

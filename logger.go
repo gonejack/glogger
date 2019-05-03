@@ -1,7 +1,7 @@
 /*
 Package logger is a basic logger library for simple go projects.
 */
-package logger
+package glogger
 
 import "github.com/gonejack/logger/internal/basicLogger"
 
