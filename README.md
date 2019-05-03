@@ -1,7 +1,8 @@
 # Logger module for go
 
+[![Build Status](https://travis-ci.org/gonejack/logger.svg?branch=master)](https://travis-ci.org/gonejack/logger)
 
-```$go
+```go
 var logger = NewLogger("test-logger")
 
 logger.Debugf("Debugf: %s", "Debugf")
